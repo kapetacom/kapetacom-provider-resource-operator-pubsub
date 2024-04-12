@@ -1,0 +1,247 @@
+kind: core/resource-type-internal
+metadata:
+  name: kapeta/resource-type-pubsub-publisher
+  title: Google Pub/Sub Publisher
+  description: Provide Google Pub/Sub publishing to your services
+  visibility: public
+spec:
+  icon:
+    type: url
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  ports:
+    - name: http
+      type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
+  schema:
+    type: object
+    required:
+      - port
+      - payloadType
+    properties:
+      port:
+        $ref: /core/port
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
+---
+kind: core/resource-type-internal
+metadata:
+  name: kapeta/resource-type-pubsub-topic
+  title: Google Pub/Sub Topic
+  description: Provide Google Pub/Sub topic definition
+  visibility: public
+spec:
+  icon:
+    type: url
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  ports:
+    - name: http
+      type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
+  schema:
+    type: object
+    required:
+      - port
+      - payloadType
+      - topic
+    properties:
+      port:
+        $ref: /core/port
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
+      topic:
+        type: string
+---
+kind: core/resource-type-internal
+metadata:
+  name: kapeta/resource-type-pubsub-subscription
+  title: Google Pub/Sub Topic
+  description: Provide Google Pub/Sub subscription definition
+  visibility: public
+spec:
+  icon:
+    type: url
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  ports:
+    - name: http
+      type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
+  schema:
+    type: object
+    required:
+      - port
+      - topic
+      - subscription
+      - payloadType
+    properties:
+      port:
+        $ref: /core/port
+      topic:
+        type: string
+      subscription:
+        type: string
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
+---
+kind: core/resource-type-internal
+metadata:
+  name: kapeta/resource-type-pubsub-subscriber
+  title: Google Pub/Sub Consumer
+  description: Provide Google Pub/Sub subscription to your services
+  visibility: public
+spec:
+  icon:
+    type: url
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  ports:
+    - name: http
+      type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
+  schema:
+    type: object
+    required:
+      - port
+      - payloadType
+    properties:
+      port:
+        $ref: /core/port
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
+---
+kind: core/block-type-operator
+metadata:
+  name: kapeta/block-type-pubsub
+  title: Google Pub/Sub Operator
+  description: Provide Google Pub/Sub connectivity to your services
+  visibility: public
+spec:
+  type: instance
+  ports:
+    primary:
+      type: http
+  icon:
+    type: url
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  schema:
+    type: object
+    properties:
+      entities:
+        $ref: /core/entity-list
+      consumers:
+        $ref: /core/block-resource-list
+      providers:
+        $ref: /core/block-resource-list
+  local:
+    image: google/cloud-sdk:466.0.0
+    singleton: false
+    cmd:
+      - "gcloud"
+      - "beta"
+      - "emulators"
+      - "pubsub"
+      - "start"
+      - "--project=367308216710"
+      - "--host-port=0.0.0.0:8085"
+    health:
+      cmd: port=8085; if grep -q ":$(printf '%04X' $port)" /proc/net/tcp; then echo "Port $port is open."; exit 0; else echo "Port $port is closed."; exit 1; fi
+      interval: 5000
+    ports:
+      http:
+        port: 8085
+        type: tcp
+    addEnv:
+      - 'GOOGLE_CLOUD_PROJECT=367308216710'
+      - (function(context) { return 'SPRING_CLOUD_GCP_PUBSUB_EMULATOR_HOST=' + context.hostname + ':' + context.ports['http'].port; })
+      - (function(context) { return 'PUBSUB_EMULATOR_HOST=' + context.hostname + ':' + context.ports['http'].port; })
+      - 'SPRING_CLOUD_GCP_CREDENTIALS_LOCATION=classpath:application_default_credentials.json'
