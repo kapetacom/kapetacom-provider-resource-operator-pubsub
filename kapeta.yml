@@ -110,12 +110,46 @@ spec:
   ports:
     - name: http
       type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
   schema:
     type: object
     required:
       - port
       - topic
       - subscription
+      - payloadType
+    properties:
+      port:
+        $ref: /core/port
+      topic:
+        type: string
+      subscription:
+        type: string
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
 ---
 kind: core/resource-type-internal
 metadata:
