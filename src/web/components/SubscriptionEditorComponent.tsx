@@ -8,20 +8,24 @@ import {FormField, FormFieldType} from "@kapeta/ui-web-components";
 import {Stack} from "@mui/material";
 import {ResourceTypeProviderEditorProps} from "@kapeta/ui-web-types";
 import {KIND_TOPIC, TopicSpec} from "../types";
+import PayloadTypeEditorComponent from "./PayloadTypeEditorComponent";
 
 const SubscriptionEditorComponent = (props: ResourceTypeProviderEditorProps) => {
-    const topicNames: string[] | undefined = useMemo(() => {
+    const topicNames: string[] = useMemo(() => {
         if (!props.block.spec.consumers) {
             return [];
         }
         return props.block.spec.consumers
             .filter(item => item.kind.startsWith(KIND_TOPIC))
             .map(item => item.spec as unknown as TopicSpec)
-            .map((e) => e.topic);
+            .map((spec) => spec.topic)
+            .filter((topic) => topic !== undefined) as string[]
     }, [props.block.spec.consumers]);
 
     return (
         <Stack className={'pubsub-subscription-editor'} sx={{ height: '100%' }}>
+            <PayloadTypeEditorComponent {...props}/>
+
             <FormField
                 name={'spec.topic'}
                 type={FormFieldType.ENUM}

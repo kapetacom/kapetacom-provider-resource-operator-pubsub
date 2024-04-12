@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import {ICON, KIND_CONSUMER, KIND_SUBSCRIPTION, SubscriptionSpec} from './types';
+import {ICON, KIND_CONSUMER, KIND_SUBSCRIPTION, TopicSpec} from './types';
 import {IResourceTypeProvider, ResourceProviderType, ResourceRole, ResourceWithSpec} from '@kapeta/ui-web-types';
 import {Metadata} from '@kapeta/schemas';
 import _ from "lodash";
@@ -23,12 +23,12 @@ const ConsumerConfig: IResourceTypeProvider<Metadata> = {
     converters: [
         {
             fromKind: KIND_SUBSCRIPTION,
-            createFrom: (data: ResourceWithSpec<SubscriptionSpec>): ResourceWithSpec<SubscriptionSpec> => {
+            createFrom: (data: ResourceWithSpec<TopicSpec>): ResourceWithSpec<TopicSpec> => {
                 return {
                     kind: data.kind,
                     spec: {
                         port: data.spec.port,
-                        topic: data.spec.topic,
+                        payloadType: data.spec.payloadType,
                     },
                     metadata: _.cloneDeep(data.metadata),
                 }

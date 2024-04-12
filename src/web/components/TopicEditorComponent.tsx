@@ -5,8 +5,9 @@
 
 import React from "react";
 import {FormField, FormFieldType} from "@kapeta/ui-web-components";
+import {ResourceTypeProviderEditorProps} from "@kapeta/ui-web-types";
 
-const TopicEditorComponent = () => {
+const TopicEditorComponent = (props: ResourceTypeProviderEditorProps) => {
 
     return (
         <div className={"pubsub-provider-editor"}>

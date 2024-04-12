@@ -6,20 +6,34 @@
 import {ICON, KIND_PROVIDER, KIND_TOPIC, TopicSpec} from './types';
 import {IResourceTypeProvider, ResourceProviderType, ResourceRole, ResourceWithSpec} from '@kapeta/ui-web-types';
 import {Metadata} from '@kapeta/schemas';
-import _ from "lodash";
-import {getDefinition} from "./utils";
+import {cloneDeep} from "lodash";
+import {getDefinition, renameEntityReferences, resolveEntities} from "./utils";
 import TopicEditorComponent from "./components/TopicEditorComponent";
+import {DSLData} from "@kapeta/kaplang-core";
 
 const packageJson = require('../../package.json');
 
-const TopicConfig: IResourceTypeProvider<Metadata> = {
+function validate(data: ResourceWithSpec<TopicSpec>): string[] {
+    const result: string[] = [];
+
+    if (!data.spec.topic || data.spec.topic.length === 0) {
+        result.push("Topic not specified");
+    }
+
+    return result;
+}
+
+const TopicConfig: IResourceTypeProvider<Metadata, TopicSpec, DSLData> = {
     kind: KIND_TOPIC,
     version: packageJson.version,
-    icon: ICON,
     title: 'Topic',
+    icon: ICON,
     role: ResourceRole.CONSUMES,
     type: ResourceProviderType.INTERNAL,
     editorComponent: TopicEditorComponent,
+    renameEntityReferences: renameEntityReferences,
+    resolveEntities: resolveEntities,
+    validate: validate,
     converters: [
         {
             fromKind: KIND_PROVIDER,
@@ -27,10 +41,11 @@ const TopicConfig: IResourceTypeProvider<Metadata> = {
                 return {
                     kind: data.kind,
                     spec: {
-                        port: data.spec.port,
+                        port: cloneDeep(data.spec.port),
+                        payloadType: cloneDeep(data.spec.payloadType),
                         topic: data.spec.topic,
                     },
-                    metadata: _.cloneDeep(data.metadata),
+                    metadata: cloneDeep(data.metadata),
                 }
             }
         }

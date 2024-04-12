@@ -59,14 +59,41 @@ spec:
   ports:
     - name: http
       type: http
+  versioning:
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - update
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - delete
+      increment: major
+    - paths:
+        - spec.payloadType.structure.properties.*
+      on:
+        - create
+      increment: minor
   schema:
     type: object
     required:
       - port
+      - payloadType
       - topic
     properties:
       port:
         $ref: /core/port
+      payloadType:
+        type: object
+        required:
+          - type
+          - structure
+        properties:
+          type:
+            type: string
+          structure:
+            $ref: /core/entity
       topic:
         type: string
 ---
@@ -147,13 +174,23 @@ metadata:
 spec:
   type: instance
   ports:
-    - type: http
+    primary:
+      type: http
   icon:
     type: url
     value: https://storage.googleapis.com/kapeta-public-cdn/icons/cloud-bucket.svg
+  schema:
+    type: object
+    properties:
+      entities:
+        $ref: /core/entity-list
+      consumers:
+        $ref: /core/block-resource-list
+      providers:
+        $ref: /core/block-resource-list
   local:
     image: google/cloud-sdk:466.0.0
-    singleton: true
+    singleton: false
     cmd:
       - "gcloud"
       - "beta"
@@ -169,3 +206,8 @@ spec:
       http:
         port: 8085
         type: tcp
+    addEnv:
+      - 'GOOGLE_CLOUD_PROJECT=367308216710'
+      - (function(context) { return 'SPRING_CLOUD_GCP_PUBSUB_EMULATOR_HOST=' + context.hostname + ':' + context.ports['http'].port; })
+      - (function(context) { return 'PUBSUB_EMULATOR_HOST=' + context.hostname + ':' + context.ports['http'].port; })
+      - 'SPRING_CLOUD_GCP_CREDENTIALS_LOCATION=classpath:application_default_credentials.json'

@@ -20,7 +20,7 @@ export interface TopicSpec {
         type: 'http';
     };
     topic?: string;
-    payloadType?: PayloadType;
+    payloadType: PayloadType;
 }
 
 export interface SubscriptionSpec extends TopicSpec {
