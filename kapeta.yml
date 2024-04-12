@@ -212,7 +212,7 @@ spec:
       type: http
   icon:
     type: url
-    value: https://storage.googleapis.com/kapeta-public-cdn/icons/cloud-bucket.svg
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
   schema:
     type: object
     properties:
