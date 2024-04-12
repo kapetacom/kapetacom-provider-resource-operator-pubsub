@@ -13,6 +13,16 @@ export const getDefinition = (name: string): any => {
     return Definitions.find((definition: any) => definition.metadata.name === name);
 };
 
+export function validateName(fieldName: string, name: string) {
+    if (!name) {
+        return;
+    }
+
+    if (!/^[a-zA-Z_][a-zA-Z\d_]*$/.test(name)) {
+        throw new Error('Invalid API name');
+    }
+}
+
 export function renameEntityReferences(resource: ResourceWithSpec<TopicSpec>, oldName: string, newName: string) {
     if (resource.spec.payloadType.type === oldName) {
         resource.spec.payloadType.type = newName;
