@@ -6,7 +6,7 @@
 import {ICON, KIND_CONSUMER, KIND_SUBSCRIPTION, TopicSpec} from './types';
 import {IResourceTypeProvider, ResourceProviderType, ResourceRole, ResourceWithSpec} from '@kapeta/ui-web-types';
 import {Metadata} from '@kapeta/schemas';
-import _ from "lodash";
+import _, {cloneDeep} from "lodash";
 import {getDefinition} from "./utils";
 import ConsumerEditorComponent from "./components/ConsumerEditorComponent";
 
@@ -27,8 +27,8 @@ const ConsumerConfig: IResourceTypeProvider<Metadata> = {
                 return {
                     kind: data.kind,
                     spec: {
-                        port: data.spec.port,
-                        payloadType: data.spec.payloadType,
+                        port: cloneDeep(data.spec.port),
+                        payloadType: cloneDeep(data.spec.payloadType),
                     },
                     metadata: _.cloneDeep(data.metadata),
                 }
