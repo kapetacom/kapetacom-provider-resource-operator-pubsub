@@ -213,6 +213,11 @@ spec:
   icon:
     type: url
     value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+  dependencies:
+    - path: spec.consumers.kind
+      type: Consumers
+    - path: spec.providers.kind
+      type: Providers
   schema:
     type: object
     properties:
