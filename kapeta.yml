@@ -239,7 +239,7 @@ spec:
       - "--project=367308216710"
       - "--host-port=0.0.0.0:8085"
     health:
-      cmd: port=8085; if grep -q ":$(printf '%04X' $port)" /proc/net/tcp; then echo "Port $port is open."; exit 0; else echo "Port $port is closed."; exit 1; fi
+      cmd: port=8085; if grep -q ":$(printf '%4X' $port)" /proc/net/tcp6 /proc/net/tcp; then echo "Port $port is open."; exit 0; else echo "Port $port is closed."; exit 1; fi
       interval: 5000
     ports:
       http:
