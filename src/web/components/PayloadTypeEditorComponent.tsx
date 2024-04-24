@@ -6,14 +6,18 @@
 import React, {useEffect, useMemo} from 'react';
 import {FormField, FormFieldType, useFormContextField} from "@kapeta/ui-web-components";
 import {ResourceTypeProviderEditorProps} from "@kapeta/ui-web-types";
-import {Entity} from "@kapeta/schemas";
+import {Entity, EntityType} from "@kapeta/schemas";
+
+const BUILT_IN_TYPES = ['any']
 
 const PayloadTypeEditorComponent = (props: ResourceTypeProviderEditorProps) => {
     const entityNames = useMemo(() => {
         if (!props.block.spec.entities?.types) {
-            return [];
+            return [...BUILT_IN_TYPES];
         }
-        return props.block.spec.entities.types.map((e) => e.name);
+        return [...BUILT_IN_TYPES, ...props.block.spec.entities.types
+            .filter((e) => e.type !== EntityType.Enum)
+            .map((e) => e.name)];
     }, [props.block.spec.entities?.types]);
 
     const payloadTypeField = useFormContextField<string>('spec.payloadType.type');
