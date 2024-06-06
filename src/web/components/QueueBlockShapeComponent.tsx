@@ -38,6 +38,7 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
                 rx="5.5"
                 fill="none"
                 stroke="black"
+                strokeWidth="1.5"
                 strokeOpacity="0.12"
             />
             {/* Consumer BG */}
