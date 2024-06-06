@@ -30,6 +30,7 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
             <rect width={props.width} height={props.height} rx="6" fill="white" />
             {/* Border */}
             <rect
+                className="block-border"
                 x="0.5"
                 y="0.5"
                 width={props.width - 1}
