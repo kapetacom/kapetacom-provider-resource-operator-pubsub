@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import {BlockTypeShapeProps} from '@kapeta/ui-web-types';
+import { BlockTypeShapeProps } from '@kapeta/ui-web-types';
 import {
     BlockHandle,
     BlockInstanceName,
@@ -13,14 +13,12 @@ import {
     useBlock,
 } from '@kapeta/ui-web-components';
 import React from 'react';
-import {Metadata} from "@kapeta/schemas";
+import { Metadata } from '@kapeta/schemas';
 
-export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
-    props: BlockTypeShapeProps<TBlockType>
-) => {
+export const QueueBlockShapeComponent = <TBlockType extends Metadata>(props: BlockTypeShapeProps<TBlockType>) => {
     // Scaling the topbar svg to fit the block
     const block = useBlock();
-    const idPrefix = `pubsub-${props.instance.id.replace(/[^a-z0-9]/ig, '')}`;
+    const idPrefix = `pubsub-${props.instance.id.replace(/[^a-z0-9]/gi, '')}`;
     const consumerMaskId = `${idPrefix}-consumer-mask`;
     const providerMaskId = `${idPrefix}-provider-mask`;
 
@@ -28,7 +26,7 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
         <g className="block-node" style={{ cursor: block.readOnly ? 'default' : 'move' }}>
             {/* Background */}
             <rect className="block-body" width={props.width} height={props.height} rx="6" fill="white" />
-            
+
             {/* Border */}
             <rect
                 className="block-border"
@@ -42,7 +40,7 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
                 strokeWidth="1.5"
                 strokeOpacity="0.12"
             />
-            
+
             {/* Consumer BG */}
             <mask id={consumerMaskId}>
                 <rect x="0" y="0" width="23" height={props.height} fill="white" />
@@ -85,20 +83,9 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    d="M8 26L8 27L10 27L10 26L8 26ZM8 -4.37114e-08L8 26L10 26L10 4.37114e-08L8 -4.37114e-08Z"
-                    fill="white"
-                />
-                <path
-                    d="M2 26L2 27L4 27L4 26L2 26ZM2 -4.37114e-08L2 26L4 26L4 4.37114e-08L2 -4.37114e-08Z"
-                    fill="white"
-                />
-                <path
-                    d="M7.35355 6.64645L7 6.29289L6.64645 6.64645L5.58895 7.70395L5.23571 8.05718L5.58863 8.41074L8.92192 11.75H1H0.5V12.25V13.75V14.25H1H8.92192L5.58863 17.5893L5.23571 17.9428L5.58895 18.2961L6.64645 19.3536L7 19.7071L7.35355 19.3536L13.3536 13.3536L13.7071 13L13.3536 12.6464L7.35355 6.64645Z"
-                    fill="white"
-                    stroke="#E0E0E0"
-                />
-                <path
-                    d="M14 26L14 27L16 27L16 26L14 26ZM14 -4.37114e-08L14 26L16 26L16 4.37114e-08L14 -4.37114e-08Z"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M9 0H7V6.58594L9 8.58594L9 0ZM9 17.4144L7 19.4144V27H9V17.4144ZM1 15H3L3 27H1L1 15ZM13 0H15L15 27H13V13.4144L13.4142 13.0002L13 12.5859V0ZM6 7L4.9425 8.0575L9.1275 12.25H0V13.75H9.1275L4.9425 17.9425L6 19L12 13L6 7ZM3 0H1L1 11H3L3 0Z"
                     fill="white"
                 />
             </svg>
@@ -114,20 +101,9 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    d="M8 26L8 27L10 27L10 26L8 26ZM8 -4.37114e-08L8 26L10 26L10 4.37114e-08L8 -4.37114e-08Z"
-                    fill="white"
-                />
-                <path
-                    d="M2 26L2 27L4 27L4 26L2 26ZM2 -4.37114e-08L2 26L4 26L4 4.37114e-08L2 -4.37114e-08Z"
-                    fill="white"
-                />
-                <path
-                    d="M7.35355 6.64645L7 6.29289L6.64645 6.64645L5.58895 7.70395L5.23571 8.05718L5.58863 8.41074L8.92192 11.75H1H0.5V12.25V13.75V14.25H1H8.92192L5.58863 17.5893L5.23571 17.9428L5.58895 18.2961L6.64645 19.3536L7 19.7071L7.35355 19.3536L13.3536 13.3536L13.7071 13L13.3536 12.6464L7.35355 6.64645Z"
-                    fill="white"
-                    stroke="#E0E0E0"
-                />
-                <path
-                    d="M14 26L14 27L16 27L16 26L14 26ZM14 -4.37114e-08L14 26L16 26L16 4.37114e-08L14 -4.37114e-08Z"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M9 0H7V6.58594L9 8.58594L9 0ZM9 17.4144L7 19.4144V27H9V17.4144ZM1 15H3L3 27H1L1 15ZM13 0H15L15 27H13V13.4144L13.4142 13.0002L13 12.5859V0ZM6 7L4.9425 8.0575L9.1275 12.25H0V13.75H9.1275L4.9425 17.9425L6 19L12 13L6 7ZM3 0H1L1 11H3L3 0Z"
                     fill="white"
                 />
             </svg>
