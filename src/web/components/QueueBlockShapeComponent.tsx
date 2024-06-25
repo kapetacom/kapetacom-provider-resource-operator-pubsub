@@ -27,7 +27,8 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
     return (
         <g className="block-node" style={{ cursor: block.readOnly ? 'default' : 'move' }}>
             {/* Background */}
-            <rect width={props.width} height={props.height} rx="6" fill="white" />
+            <rect className="block-body" width={props.width} height={props.height} rx="6" fill="white" />
+            
             {/* Border */}
             <rect
                 className="block-border"
@@ -41,6 +42,7 @@ export const QueueBlockShapeComponent = <TBlockType extends Metadata>(
                 strokeWidth="1.5"
                 strokeOpacity="0.12"
             />
+            
             {/* Consumer BG */}
             <mask id={consumerMaskId}>
                 <rect x="0" y="0" width="23" height={props.height} fill="white" />
