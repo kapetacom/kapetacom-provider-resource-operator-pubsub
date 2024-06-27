@@ -7,7 +7,14 @@ metadata:
 spec:
   icon:
     type: url
-    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub.svg
+  icons:
+    - type: url
+      value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub-light.svg
+      theme: dark
+    - type: url
+      value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub.svg
+      theme: light
   ports:
     - name: http
       type: http
@@ -55,7 +62,14 @@ metadata:
 spec:
   icon:
     type: url
-    value: https://storage.googleapis.com/kapeta-public-cdn/icons/gcp-pub-sub.svg
+    value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub.svg
+  icons:
+    - type: url
+      value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub-light.svg
+      theme: dark
+    - type: url
+      value: https://storage.googleapis.com/kapeta-public-cdn/icons/themed/google-cloud-pub-sub.svg
+      theme: light
   ports:
     - name: http
       type: http
